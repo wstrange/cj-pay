@@ -38,7 +38,7 @@
 
 ;; Operations
 
-(defn- store! [{username :usernals :as user}]
+(defn- store! [{username :username :as user}]
   (db/update! :users assoc username user))
 
 (defn login! [{:keys [username password] :as user}]

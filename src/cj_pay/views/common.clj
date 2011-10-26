@@ -36,6 +36,17 @@
   ]
    )
    
+(defpartial header-content []
+       [:div.header 
+         [:h1.push-1.span-8 "The Pay Master"]
+         [:p.push-5.last (logged-in-status)]
+         [:hr]
+         ])
+
+(defpartial logged-in-status [] 
+  (if  (users/me) 
+    [:span "Logged in as " (users/me) " - " (link-to "/logout" "Logout")]
+    [:span (link-to "/login" "Login")]))
    
 ;; Layouts
 
@@ -44,7 +55,7 @@
         (build-head [:blueprint :jquery :util.js])
                 [:body
                   [:div.container.showgridx              ; change showgridx to showgrid to show blueprint grid
-                    [:div.span-24 [:h1 "header"] [:hr]]  ; 24 col wide header
+                    (header-content)  ; 24 col wide header
                     [:div.span-4 (nav-content)]          ; Nav bar that is 4 cols wide
                     [:div.span-20.last content ]         ; 20 cols for content
                     [:p.span-24 " "]   ; space 
@@ -66,7 +77,6 @@
                    (map link-item admin-links)]]
                  content]]]))
 
-(defpartial logged-in-status [] [:p "Logged in as" (users/me)])
 
 (defpartial main-layout [& content]
             (html5
