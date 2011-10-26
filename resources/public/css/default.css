@@ -33,4 +33,16 @@ ul.posts li.post .datetime {float:right; display:inline; font-size:11px; color:#
 ul.posts li.post .content { float:left; display:inline; width:660px; color:#babbbb;}
 ul.posts li.post .content p { margin-bottom:18px; }
 
+/*
 .submit { display:none; }
+*/
+button[type=submit] {
+    background-color: transparent;
+    border: none;
+    border-bottom: solid blue 1px;
+    color: blue;
+    font-weight: bold;
+    padding: 0px;
+    cursor: pointer;
+}
+

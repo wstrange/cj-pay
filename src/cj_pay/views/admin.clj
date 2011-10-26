@@ -23,16 +23,42 @@
 
 
 (defpartial user-fields [{:keys [username] :as usr}]
-            (vali/on-error :username error-text)
-            (label "username" "Username")
+            (vali/on-error :username error-text)       
             (text-field {:placeholder "Username"} :username username)
-            (label "password" "Password")
             (password-field {:placeholder "Password"} :password))
+
+
+;; Login 
+
+(pre-route "/admin*" {}
+           (when-not (users/admin?)
+             (resp/redirect "/login")))
+
+(defpage "/login" {:as user}
+         (if (users/admin?)
+           (resp/redirect "/admin")
+           (common/layout
+             (form-to [:post "/login"]
+                      [:ul.actions
+                       [:li (link-to {:class "submit"} "javascript:$('form').submit();" "Login")]]
+                      (user-fields user)
+                      (submit-button {:class "submit"} "submit")))))
+
+(defpage [:post "/login"] {:as user}
+  (println "/login ********" user)
+         (if (users/login! user)
+           (resp/redirect "/welcome")
+            (render "/login" user)))
+
+(defpage "/logout" {}
+         (session/clear!)
+         (resp/redirect "/admin"))
+
 
 ;; Pages
 
 (defpage "/admin" []
-         (common/admin-layout
+         (common/layout
            [:h1 "Admin Page"]
            [:p "Curent Users"]
            [:ul.items 
@@ -49,13 +75,15 @@
 
 (defpage "/admin/user/edit/:old-name" {:keys [old-name]}
          (let [user (users/get-username old-name)]
-           (common/admin-layout
+           (common/layout
              [:h2 "Edit User"]
              (form-to [:post (str "/admin/user/edit/" old-name)]
+                      (user-fields user)
                       [:ul.actions
                         [:li (link-to {:class "submit"} "/" "Submit")]
                         [:li (link-to {:class "delete"} (str "/admin/user/remove/" old-name) "Remove")]]
-                      (user-fields user)))))
+                      [:button "Submit"]
+                      ))))
 
 ;; Post action after user is updated
 (defpage [:post "/admin/user/edit/:old-name"] {:keys [old-name] :as user}

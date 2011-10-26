@@ -18,6 +18,10 @@
 (defn me []
   (session/get :username))
 
+(defn printall [] 
+  (doseq [u (db/get :users)]  (println u)))
+
+
 ;; Mutations and Checks
 
 (defn prepare [{password :password :as user}]
@@ -34,10 +38,11 @@
 
 ;; Operations
 
-(defn- store! [{username :username :as user}]
+(defn- store! [{username :usernals :as user}]
   (db/update! :users assoc username user))
 
 (defn login! [{:keys [username password] :as user}]
+  
   (let [{stored-pass :password} (get-username username)]
     (if (and stored-pass 
              (crypt/compare password stored-pass))

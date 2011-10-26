@@ -5,7 +5,12 @@
         hiccup.core
         hiccup.page-helpers))
 
-(defpage "/welcome" []
+(defpage "/" []
          (common/layout
            [:h1 "Welcome to the Pay Master"]
            [:p "You will enter your payment details here"]))
+
+(defpage "/welcome" []
+         (common/layout
+           [:h1 "Welcome to the Pay Master"]
+           [:p "Logged in user landing page"]))
