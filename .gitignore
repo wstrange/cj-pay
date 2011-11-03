@@ -5,3 +5,4 @@ pom.xml
 .lein-deps-sum
 .settings/
 /sdb.db
+/api-key

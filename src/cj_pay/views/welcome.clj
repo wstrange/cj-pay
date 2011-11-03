@@ -6,9 +6,9 @@
         hiccup.page-helpers))
 
 (defpage "/" []
-         (common/layout
+         (common/public-layout
            [:h1 "Welcome to the Pay Master"]
-           [:p "You will enter your payment details here"]))
+           [:p "This is the public page"]))
 
 (defpage "/welcome" []
          (common/layout

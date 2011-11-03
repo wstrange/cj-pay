@@ -1,7 +1,16 @@
 (ns cj-pay.server
-  (:require [noir.server :as server]))
+  (:require [noir.server :as server])
+   (:use somnium.congomongo))
+
+
+(def conn (make-connection "cjpay-db"  
+                                :host "127.0.0.1"  
+                                :port 27017))
+; Set up Mongo DB connection
+(set-connection! conn)
 
 (server/load-views "src/cj_pay/views/")
+
 
 (defn -main [& m]
   (let [mode (keyword (or (first m) :dev))
@@ -12,4 +21,4 @@
 
 
 ; For dev - start server on load
-; (-main)
+(-main)
